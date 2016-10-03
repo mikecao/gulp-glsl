@@ -15,7 +15,7 @@ const glsl = require('gulp-glsl');
 
 gulp.src('shaders/**/*.glsl')
   .pipe(glsl())
-  .pipe(gulp.dest('build');
+  .pipe(gulp.dest('build'));
 ```
 
 # Options
