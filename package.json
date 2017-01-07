@@ -1,7 +1,7 @@
 {
   "name": "gulp-glsl",
   "description": "Convert GLSL code into minified strings.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "Mike Cao <mike@mikecao.com>",
   "repository": "https://github.com/mikecao/gulp-glsl.git",
   "license": "MIT",
@@ -14,7 +14,7 @@
     "webgl"
   ],
   "dependencies": {
-    "glsl-man": "^1.1.1",
+    "glsl-man": "^1.1.6",
     "gulp-util": "^3.0.7",
     "object-assign": "^4.1.0",
     "through2": "^2.0.1"
