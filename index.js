@@ -20,7 +20,8 @@ var formats = [
     'module',
     'string',
     'raw',
-    'object'
+    'object',
+    'json'
 ];
 
 function compile(code) {
@@ -34,6 +35,10 @@ module.exports = function(options) {
     var shaders = {};
 
     options = assign({}, defaults, options);
+
+    var wrapModule = function(s) {
+        return 'module.exports=' + s + ';';
+    };
 
     var transform = function(file, encoding, callback) {
         if (file.isNull()) {
@@ -58,10 +63,10 @@ module.exports = function(options) {
             return;
         }
 
-        if (options.format !== 'object') {
+        if (options.format !== 'object' && options.format !== 'json') {
             switch (options.format) {
                 case 'module':
-                    file.contents = new Buffer('module.exports='+JSON.stringify(code));
+                    file.contents = new Buffer(wrapModule(JSON.stringify(code)));
                     break;
                 case 'string':
                     file.contents = new Buffer(JSON.stringify(code));
@@ -92,14 +97,20 @@ module.exports = function(options) {
     };
 
     var flush = function(callback) {
-        if (options.format !== 'object') {
+        if (options.format !== 'object' && options.format !== 'json') {
             callback();
             return;
         }
 
+        var code = JSON.stringify(shaders);
+
+        if (options.format === 'object') {
+            code = wrapModule(code);
+        }
+
         var file = new File({
             path: options.filename,
-            contents: new Buffer('module.exports='+JSON.stringify(shaders))
+            contents: new Buffer(code)
         });
 
         this.push(file);

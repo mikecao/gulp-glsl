@@ -32,6 +32,10 @@ var fragmentShaderMinified = [
     "}"
 ].join("");
 
+function wrapModule(s) {
+    return 'module.exports=' + s + ';';
+}
+
 describe('gulp-glsl', function() {
     it('should convert GLSL into a CommonJS module', function(done) {
         var stream = plugin();
@@ -42,8 +46,7 @@ describe('gulp-glsl', function() {
         });
 
         var expected = new Buffer(
-            'module.exports='+
-            JSON.stringify(vertextShaderMinified)
+            wrapModule(JSON.stringify(vertextShaderMinified))
         );
 
         stream.on('data', function(file) {
@@ -93,7 +96,7 @@ describe('gulp-glsl', function() {
         stream.end();
     });
 
-    it('should convert GLSL into a JSON object', function(done) {
+    it('should convert GLSL into an object', function(done) {
         var stream = plugin({ format: 'object' });
 
         var testFile = new File({
@@ -107,7 +110,36 @@ describe('gulp-glsl', function() {
         });
 
         var expected = new Buffer(
-            'module.exports='+
+            wrapModule(JSON.stringify({
+                vertex: vertextShaderMinified,
+                fragment: fragmentShaderMinified
+            }))
+        );
+
+        stream.on('data', function(file) {
+            assert.equal(file.contents.equals(expected), true);
+            done();
+        });
+
+        stream.write(testFile);
+        stream.write(testFile2);
+        stream.end();
+    });
+
+    it('should convert GLSL into a JSON object', function(done) {
+        var stream = plugin({ format: 'json' });
+
+        var testFile = new File({
+            path: 'vertex.glsl',
+            contents: new Buffer(vertexShader)
+        });
+
+        var testFile2 = new File({
+            path: 'fragment.glsl',
+            contents: new Buffer(fragmentShader)
+        });
+
+        var expected = new Buffer(
             JSON.stringify({
                 vertex: vertextShaderMinified,
                 fragment: fragmentShaderMinified
@@ -162,10 +194,9 @@ describe('gulp-glsl', function() {
         });
 
         var expected = new Buffer(
-            'module.exports='+
-            JSON.stringify({
+            wrapModule(JSON.stringify({
                 vertex: vertextShaderMinified
-            })
+            }))
         );
 
         stream.on('data', function(file) {
@@ -214,13 +245,12 @@ describe('gulp-glsl', function() {
         });
 
         var expected = new Buffer(
-            'module.exports='+
-            JSON.stringify({
+            wrapModule(JSON.stringify({
                 shaders: {
                     vertex: vertextShaderMinified,
                     fragment: fragmentShaderMinified
                 }
-            })
+            }))
         );
 
         stream.on('data', function(file) {

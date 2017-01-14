@@ -22,25 +22,29 @@ gulp.src('shaders/**/*.glsl')
 
 `format` - Output format (default: 'module')
 
-If you pass in `module` the output will be a CommonJS module:
+```
+glsl({ format: 'module' })
+```
+
+* `module`: The the output will be a CommonJS module:
 
 ```
 module.exports = "(GLSL code)";
 ```
 
-If you pass in `string` the output will be a JSON encoded string:
+* `string`: The output will be a JSON encoded string:
 
 ```
 "(GLSL code)"
 ```
 
-If you pass in `raw` the output will be a raw string:
+* `raw`: The output will be a raw string:
 
 ```
 (GLSL code)
 ```
 
-If you pass in `object` the output will be a single JSON object containing
+* `object`: The output will be a single JSON object containing
 the code for all passed in files:
 
 ```
@@ -56,10 +60,16 @@ module.exports = {
 };
 ```
 
+* `json`: Same as `object` but without the `module.exports` syntax:
+
+```
+{ "file1": "(GLSL code)", "file2": "(GLSL code)" }
+```
+
 `filename` - Filename for output object file. (default: 'glsl.js')
 
 You can specify your own name by using the `filename` option. This only applies when 
-the format is `object`:
+the format is `object` or `json`:
 
 ```
 glsl({ format: 'object', filename: 'custom.js' })
@@ -67,7 +77,7 @@ glsl({ format: 'object', filename: 'custom.js' })
 
 `ext` - Extension to give output files. (default: '.js')
 
-This only applies when the format is not `object`:
+This only applies when the format is not `object` or `json`:
 
 ```
 glsl({ format: 'raw', ext: '.txt' })
