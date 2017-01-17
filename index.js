@@ -13,7 +13,8 @@ var PLUGIN_NAME = 'gulp-glsl';
 var defaults = {
     format: 'module',
     filename: 'glsl.js',
-    ext: '.js'
+    ext: '.js',
+    es6: false
 };
 
 var formats = [
@@ -31,30 +32,36 @@ function compile(code) {
     );
 }
 
+function wrapModule(str, es6) {
+    return (es6) ?
+        'export default ' + str + ';' :
+        'module.exports=' + str + ';';
+}
+
 module.exports = function(options) {
     var shaders = {};
 
     options = assign({}, defaults, options);
 
-    var wrapModule = function(s) {
-        return 'module.exports=' + s + ';';
-    };
-
     var transform = function(file, encoding, callback) {
+        // Check file
         if (file.isNull()) {
             return callback(null, file);
         }
 
+        // Streams not supported
         if (file.isStream()) {
             this.emit('error', new PluginError(PLUGIN_NAME, 'Streams not supported.'));
             return;
         }
 
+        // Check for valid format
         if (formats.indexOf(options.format) === -1) {
             this.emit('error', new PluginError(PLUGIN_NAME, 'Invalid format specified.'));
             return;
         }
 
+        // Minify file contents
         try {
             var code = compile(file.contents.toString());
         }
@@ -63,24 +70,8 @@ module.exports = function(options) {
             return;
         }
 
-        if (options.format !== 'object' && options.format !== 'json') {
-            switch (options.format) {
-                case 'module':
-                    file.contents = new Buffer(wrapModule(JSON.stringify(code)));
-                    break;
-                case 'string':
-                    file.contents = new Buffer(JSON.stringify(code));
-                    break;
-                case 'raw':
-                    file.contents = new Buffer(code);
-                    break;
-            }
-
-            file.path = file.path.replace(path.extname(file.relative), options.ext);
-
-            callback(null, file);
-        }
-        else {
+        // If object or json, we want to buffer the contents
+        if (options.format === 'object' || options.format === 'json') {
             var dirname = path.dirname(file.relative),
                 name = path.basename(file.relative, path.extname(file.relative));
 
@@ -94,6 +85,24 @@ module.exports = function(options) {
 
             callback();
         }
+        // Otherwise return immediately
+        else {
+            switch (options.format) {
+                case 'module':
+                    file.contents = new Buffer(wrapModule(JSON.stringify(code), options.es6));
+                    break;
+                case 'string':
+                    file.contents = new Buffer(JSON.stringify(code));
+                    break;
+                case 'raw':
+                    file.contents = new Buffer(code);
+                    break;
+            }
+
+            file.path = file.path.replace(path.extname(file.relative), options.ext);
+
+            callback(null, file);
+        }
     };
 
     var flush = function(callback) {
@@ -105,7 +114,7 @@ module.exports = function(options) {
         var code = JSON.stringify(shaders);
 
         if (options.format === 'object') {
-            code = wrapModule(code);
+            code = wrapModule(code, options.es6);
         }
 
         var file = new File({

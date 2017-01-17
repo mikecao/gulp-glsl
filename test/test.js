@@ -32,8 +32,10 @@ var fragmentShaderMinified = [
     "}"
 ].join("");
 
-function wrapModule(s) {
-    return 'module.exports=' + s + ';';
+function wrapModule(str, es6) {
+    return (es6) ?
+        'export default ' + str + ';' :
+        'module.exports=' + str + ';';
 }
 
 describe('gulp-glsl', function() {
@@ -47,6 +49,27 @@ describe('gulp-glsl', function() {
 
         var expected = new Buffer(
             wrapModule(JSON.stringify(vertextShaderMinified))
+        );
+
+        stream.on('data', function(file) {
+            assert.equal(file.contents.equals(expected), true);
+            done();
+        });
+
+        stream.write(testFile);
+        stream.end();
+    });
+
+    it('should convert GLSL into an ES6 module', function(done) {
+        var stream = plugin({ es6: true });
+
+        var testFile = new File({
+            path: 'vertex.glsl',
+            contents: new Buffer(vertexShader)
+        });
+
+        var expected = new Buffer(
+            wrapModule(JSON.stringify(vertextShaderMinified), true)
         );
 
         stream.on('data', function(file) {

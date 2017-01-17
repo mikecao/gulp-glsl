@@ -83,6 +83,18 @@ This only applies when the format is not `object` or `json`:
 glsl({ format: 'raw', ext: '.txt' })
 ```
 
+`es6` - Export an ES6 module. (default: false)
+
+```
+glsl({ es6: true })
+```
+
+Will use `export default` instead of `module.exports`.
+
+```
+export default "(GLSL code)"
+```
+
 # License
 
 MIT License
