@@ -5,6 +5,7 @@ var through = require('through2');
 var glslman = require('glsl-man');
 var gutil = require('gulp-util');
 var assign = require('object-assign');
+var keys = Object.keys || require('object-keys');
 var File = gutil.File;
 var PluginError = gutil.PluginError;
 
@@ -36,6 +37,16 @@ function wrapModule(str, es6) {
     return (es6) ?
         'export default ' + str + ';' :
         'module.exports=' + str + ';';
+}
+
+function sortByKey(data) {
+    var sorted = {};
+
+    keys(data).sort().forEach(function(k) {
+        sorted[k] = data[k];
+    });
+
+    return sorted;
 }
 
 module.exports = function(options) {
@@ -111,7 +122,7 @@ module.exports = function(options) {
             return;
         }
 
-        var code = JSON.stringify(shaders);
+        var code = JSON.stringify(sortByKey(shaders));
 
         if (options.format === 'object') {
             code = wrapModule(code, options.es6);

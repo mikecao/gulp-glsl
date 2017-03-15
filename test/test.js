@@ -1,36 +1,16 @@
 'use strict';
 
+var fs = require('fs');
+var path = require('path');
 var plugin = require('../index');
 var assert = require('assert');
 var PassThrough = require('stream').PassThrough;
 var File = require('gulp-util').File;
 
-var vertexShader = [
-    "#define GLSL 1\n",
-    "void main() {",
-    "  gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;",
-    "}"
-].join("\n");
-
-var vertextShaderMinified = [
-    "#define GLSL 1\n",
-    "void main(){",
-    "gl_Position=gl_ModelViewProjectionMatrix*gl_Vertex;",
-    "}"
-].join("");
-
-var fragmentShader = [
-    "void main() {",
-    "  // Comment",
-    "  gl_FragColor = vec4(0.4, 0.4, 0.8, 1.0);",
-    "}"
-].join("\n");
-
-var fragmentShaderMinified = [
-    "void main(){",
-    "gl_FragColor=vec4(0.4,0.4,0.8,1.0);",
-    "}"
-].join("");
+var vertexShader = fs.readFileSync(path.join(__dirname, 'shaders/vertex.glsl'), 'utf8');
+var vertexShaderMinified = fs.readFileSync(path.join(__dirname, 'shaders/vertex.min.glsl'), 'utf8');
+var fragmentShader = fs.readFileSync(path.join(__dirname, 'shaders/vertex.glsl'), 'utf8');
+var fragmentShaderMinified = fs.readFileSync(path.join(__dirname, 'shaders/vertex.min.glsl'), 'utf8');
 
 function wrapModule(str, es6) {
     return (es6) ?
@@ -48,7 +28,7 @@ describe('gulp-glsl', function() {
         });
 
         var expected = new Buffer(
-            wrapModule(JSON.stringify(vertextShaderMinified))
+            wrapModule(JSON.stringify(vertexShaderMinified))
         );
 
         stream.on('data', function(file) {
@@ -69,7 +49,7 @@ describe('gulp-glsl', function() {
         });
 
         var expected = new Buffer(
-            wrapModule(JSON.stringify(vertextShaderMinified), true)
+            wrapModule(JSON.stringify(vertexShaderMinified), true)
         );
 
         stream.on('data', function(file) {
@@ -89,7 +69,7 @@ describe('gulp-glsl', function() {
             contents: new Buffer(vertexShader)
         });
 
-        var expected = new Buffer(JSON.stringify(vertextShaderMinified));
+        var expected = new Buffer(JSON.stringify(vertexShaderMinified));
 
         stream.on('data', function(file) {
             assert.equal(file.contents.equals(expected), true);
@@ -108,7 +88,7 @@ describe('gulp-glsl', function() {
             contents: new Buffer(vertexShader)
         });
 
-        var expected = new Buffer(vertextShaderMinified);
+        var expected = new Buffer(vertexShaderMinified);
 
         stream.on('data', function(file) {
             assert.equal(file.contents.equals(expected), true);
@@ -134,8 +114,8 @@ describe('gulp-glsl', function() {
 
         var expected = new Buffer(
             wrapModule(JSON.stringify({
-                vertex: vertextShaderMinified,
-                fragment: fragmentShaderMinified
+                fragment: fragmentShaderMinified,
+                vertex: vertexShaderMinified
             }))
         );
 
@@ -164,8 +144,8 @@ describe('gulp-glsl', function() {
 
         var expected = new Buffer(
             JSON.stringify({
-                vertex: vertextShaderMinified,
-                fragment: fragmentShaderMinified
+                fragment: fragmentShaderMinified,
+                vertex: vertexShaderMinified
             })
         );
 
@@ -218,7 +198,7 @@ describe('gulp-glsl', function() {
 
         var expected = new Buffer(
             wrapModule(JSON.stringify({
-                vertex: vertextShaderMinified
+                vertex: vertexShaderMinified
             }))
         );
 
@@ -240,7 +220,7 @@ describe('gulp-glsl', function() {
             contents: new Buffer(vertexShader)
         });
 
-        var expected = new Buffer(vertextShaderMinified);
+        var expected = new Buffer(vertexShaderMinified);
 
         stream.on('data', function(file) {
             assert.equal(file.path, 'vertex.txt');
@@ -270,7 +250,7 @@ describe('gulp-glsl', function() {
         var expected = new Buffer(
             wrapModule(JSON.stringify({
                 shaders: {
-                    vertex: vertextShaderMinified,
+                    vertex: vertexShaderMinified,
                     fragment: fragmentShaderMinified
                 }
             }))
