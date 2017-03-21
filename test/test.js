@@ -9,8 +9,8 @@ var File = require('gulp-util').File;
 
 var vertexShader = fs.readFileSync(path.join(__dirname, 'shaders/vertex.glsl'), 'utf8');
 var vertexShaderMinified = fs.readFileSync(path.join(__dirname, 'shaders/vertex.min.glsl'), 'utf8');
-var fragmentShader = fs.readFileSync(path.join(__dirname, 'shaders/vertex.glsl'), 'utf8');
-var fragmentShaderMinified = fs.readFileSync(path.join(__dirname, 'shaders/vertex.min.glsl'), 'utf8');
+var fragmentShader = fs.readFileSync(path.join(__dirname, 'shaders/fragment.glsl'), 'utf8');
+var fragmentShaderMinified = fs.readFileSync(path.join(__dirname, 'shaders/fragment.min.glsl'), 'utf8');
 
 function wrapModule(str, es6) {
     return (es6) ?
