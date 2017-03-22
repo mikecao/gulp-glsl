@@ -141,9 +141,9 @@ glogg@^1.0.0:
   dependencies:
     sparkles "^1.0.0"
 
-glsl-man@^1.1.6:
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/glsl-man/-/glsl-man-1.1.6.tgz#cd620a10e4949eb0e69592fae1bcffbbefd33dea"
+glsl-man@^1.1.7:
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/glsl-man/-/glsl-man-1.1.7.tgz#8b40123d43a12d33b239e9cc63b2e2f187f65256"
   dependencies:
     cssauron "^1.4.0"
     tree-traversal "^1.1.1"

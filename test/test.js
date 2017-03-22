@@ -32,7 +32,7 @@ describe('gulp-glsl', function() {
         );
 
         stream.on('data', function(file) {
-            assert.equal(file.contents.equals(expected), true);
+            assert.equal(file.contents.toString(), expected.toString());
             done();
         });
 
@@ -53,7 +53,7 @@ describe('gulp-glsl', function() {
         );
 
         stream.on('data', function(file) {
-            assert.equal(file.contents.equals(expected), true);
+            assert.equal(file.contents.toString(), expected.toString());
             done();
         });
 
@@ -72,7 +72,7 @@ describe('gulp-glsl', function() {
         var expected = new Buffer(JSON.stringify(vertexShaderMinified));
 
         stream.on('data', function(file) {
-            assert.equal(file.contents.equals(expected), true);
+            assert.equal(file.contents.toString(), expected.toString());
             done();
         });
 
@@ -91,7 +91,7 @@ describe('gulp-glsl', function() {
         var expected = new Buffer(vertexShaderMinified);
 
         stream.on('data', function(file) {
-            assert.equal(file.contents.equals(expected), true);
+            assert.equal(file.contents.toString(), expected.toString());
             done();
         });
 
@@ -120,7 +120,7 @@ describe('gulp-glsl', function() {
         );
 
         stream.on('data', function(file) {
-            assert.equal(file.contents.equals(expected), true);
+            assert.equal(file.contents.toString(), expected.toString());
             done();
         });
 
@@ -150,7 +150,7 @@ describe('gulp-glsl', function() {
         );
 
         stream.on('data', function(file) {
-            assert.equal(file.contents.equals(expected), true);
+            assert.equal(file.contents.toString(), expected.toString());
             done();
         });
 
@@ -204,7 +204,7 @@ describe('gulp-glsl', function() {
 
         stream.on('data', function(file) {
             assert.equal(file.path, 'test.js');
-            assert.equal(file.contents.equals(expected), true);
+            assert.equal(file.contents.toString(), expected.toString());
             done();
         });
 
@@ -224,7 +224,7 @@ describe('gulp-glsl', function() {
 
         stream.on('data', function(file) {
             assert.equal(file.path, 'vertex.txt');
-            assert.equal(file.contents.equals(expected), true);
+            assert.equal(file.contents.toString(), expected.toString());
             done();
         });
 
@@ -257,7 +257,7 @@ describe('gulp-glsl', function() {
         );
 
         stream.on('data', function(file) {
-            assert.equal(file.contents.equals(expected), true);
+            assert.equal(file.contents.toString(), expected.toString());
             done();
         });
 
