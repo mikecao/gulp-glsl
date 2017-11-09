@@ -142,8 +142,8 @@ glogg@^1.0.0:
     sparkles "^1.0.0"
 
 glsl-man@^1.1.7:
-  version "1.1.12"
-  resolved "https://registry.yarnpkg.com/glsl-man/-/glsl-man-1.1.12.tgz#539d64137c5c2e69d0cc4b0240dd48b843ff2c97"
+  version "1.1.13"
+  resolved "https://registry.yarnpkg.com/glsl-man/-/glsl-man-1.1.13.tgz#16fee25aeafcc12873e9c90e3a22ae4a85604ad2"
   dependencies:
     cssauron "^1.4.0"
     tree-traversal "^1.1.1"

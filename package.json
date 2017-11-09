@@ -1,7 +1,7 @@
 {
   "name": "gulp-glsl",
-  "description": "Gulp plugin that converts GLSL code into minified strings.",
-  "version": "1.2.2",
+  "description": "Gulp plugin that converts GLSL code into minified strings",
+  "version": "1.2.3",
   "author": "Mike Cao <mike@mikecao.com>",
   "repository": "https://github.com/mikecao/gulp-glsl.git",
   "license": "MIT",
