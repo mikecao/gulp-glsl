@@ -5,7 +5,7 @@ var path = require('path');
 var plugin = require('../index');
 var assert = require('assert');
 var PassThrough = require('stream').PassThrough;
-var File = require('gulp-util').File;
+var File = require('vinyl');
 
 var vertexShader = fs.readFileSync(path.join(__dirname, 'shaders/vertex.glsl'), 'utf8');
 var vertexShaderMinified = fs.readFileSync(path.join(__dirname, 'shaders/vertex.min.glsl'), 'utf8');
