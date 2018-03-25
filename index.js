@@ -3,11 +3,10 @@
 var path = require('path');
 var through = require('through2');
 var glslman = require('glsl-man');
-var gutil = require('gulp-util');
 var assign = require('object-assign');
 var keys = Object.keys || require('object-keys');
-var File = gutil.File;
-var PluginError = gutil.PluginError;
+var File = require('vinyl');
+var PluginError = require('plugin-error');
 
 var PLUGIN_NAME = 'gulp-glsl';
 
